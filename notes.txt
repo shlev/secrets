@@ -1,0 +1,1 @@
+Level2 - encryption with mongoose- encryption using secret key locally
