@@ -24,3 +24,8 @@ passport
 passport-local
 passport-local-mongoose
 express-session 
+
+OAuth
+1. Granular Access Levels
+2. Read/Read+Write Access
+3. Revoke Access
