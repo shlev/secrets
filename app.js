@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
-const md5 = require('md5');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const app = express();
 
@@ -25,8 +26,6 @@ const usersSchema = new mongoose.Schema({
     password: String
 });
 
-const secret_env = process.env.SECRET
-
 const User = mongoose.model("User", usersSchema);
 
 app.get('/', function(req, res) {
@@ -39,16 +38,18 @@ app.route('/login')
     })
     .post( function(req, res) {
         const loginUser = req.body.username;
-        const loginPassword = md5(req.body.password);
+        const loginPassword = req.body.password;
         User.findOne({email: loginUser}, function( err, foundUser) {
             if (!err) {
                 if ( foundUser) {
-                    if ( foundUser.password === loginPassword) {
-                        console.log("Logged in successfully");
-                        res.render('secrets');
-                    } else {
-                        console.log("incorrect password");
-                    }
+                    bcrypt.compare(loginPassword, foundUser.password, function( err, result) {
+                        if ( result === true) {
+                            console.log("Logged in successfully");
+                            res.render('secrets');
+                        } else {
+                            console.log("incorrect password");
+                        }
+                    });
                 } else {
                     console.log('user not found');
                 }
@@ -65,16 +66,19 @@ app.route('/register')
     })
     .post(function(req, res) {
         const emailInput = req.body.username;
-        const passwordInput = md5(req.body.password);
-        const newUser = new User({
-            email: emailInput, password: passwordInput});
-        newUser.save( function (err) {
-            if (!err) {
-                console.log("registered new user successfully");
-                res.render('secrets');
-            } else {
-                console.log(err);
-            }
+        const passwordInput = req.body.password;
+        bcrypt.hash(passwordInput, saltRounds , function (err, hash) {
+            const newUser = new User({
+            email: emailInput,
+            password: hash});
+            newUser.save( function (err) {
+                if (!err) {
+                    console.log("registered new user successfully");
+                    res.render('secrets');
+                } else {
+                    console.log(err);
+                }
+            });
         });
     });
 

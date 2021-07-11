@@ -13,3 +13,7 @@ Code Book
 Level3 - Hashing 
 use md5 to encrypt.
 longer pw is much more secure than content letter variety.
+
+Level 4 - Salting 
+hashing of password + random number 
+bcrypt
