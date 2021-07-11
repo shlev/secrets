@@ -6,3 +6,10 @@ create .env file
 save environment values to .env file format NAME=VALUE
 
 extract env value process.env.<env name>
+
+
+Code Book
+
+Level3 - Hashing 
+use md5 to encrypt.
+longer pw is much more secure than content letter variety.
