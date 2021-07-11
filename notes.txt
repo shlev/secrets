@@ -1,1 +1,8 @@
 Level2 - encryption with mongoose- encryption using secret key locally
+
+
+npm i dotenv
+create .env file
+save environment values to .env file format NAME=VALUE
+
+extract env value process.env.<env name>
