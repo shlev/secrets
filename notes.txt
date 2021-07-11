@@ -17,3 +17,10 @@ longer pw is much more secure than content letter variety.
 Level 4 - Salting 
 hashing of password + random number 
 bcrypt
+
+Level 5 - cookies authorization
+read about 
+passport
+passport-local
+passport-local-mongoose
+express-session 
